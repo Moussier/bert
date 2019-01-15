@@ -212,13 +212,13 @@ class NewsProcessor(DataProcessor):
     def __init__(self):
         i=0
         for line in open("bert_repo/news.json"):
-            if(i>20000):
+            if(i>50000):
                 break
             i+=1
             temp = json.loads(line)
             if(len(temp["short_description"]) > 10 and len(temp["category"]) > 2 and len(temp["headline"]) > 5):
                 self.lines.append(temp)
-        #limitation of 20k lines
+        #limitation of 50k lines
 
     def get_train_examples(self, data_dir):
       """See base class."""
