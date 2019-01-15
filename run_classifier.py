@@ -210,7 +210,7 @@ class NewsProcessor(DataProcessor):
     lines = []
 
     def __init__(self):
-        for line in open("news.json"):
+        for line in open("bert_repo/news.json"):
             temp = json.loads(line)
             if(len(temp["short_description"]) > 10 and len(temp["category"]) > 2 and len(temp["headline"]) > 5):
                 self.lines.append(temp)
