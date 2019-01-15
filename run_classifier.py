@@ -214,6 +214,8 @@ class NewsProcessor(DataProcessor):
             temp = json.loads(line)
             if(len(temp["short_description"]) > 10 and len(temp["category"]) > 2 and len(temp["headline"]) > 5):
                 self.lines.append(temp)
+        #limitation of 20k lines
+        lines = lines[0:20000]
 
     def get_train_examples(self, data_dir):
       """See base class."""
