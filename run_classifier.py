@@ -215,15 +215,15 @@ class NewsProcessor(DataProcessor):
             if(len(temp["short_description"]) > 10 and len(temp["category"]) > 2 and len(temp["headline"]) > 5):
                 self.lines.append(temp)
 
-    def get_train_examples(self):
+    def get_train_examples(self, data_dir):
       """See base class."""
       return self._create_examples(self.lines, "train")
 
-    def get_dev_examples(self):
+    def get_dev_examples(self, data_dir):
       """See base class."""
       return self._create_examples(self.lines, "dev")
 
-    def get_test_examples(self):
+    def get_test_examples(self, data_dir):
       """See base class."""
       return self._create_examples(self.lines, "test")
 
