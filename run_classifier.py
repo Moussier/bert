@@ -207,17 +207,13 @@ class DataProcessor(object):
 class NewsProcessor(DataProcessor):
     """https://www.kaggle.com/rmisra/news-category-dataset"""
 
-    def parse_json_dataset(self):
-        lines = []
-        for line in open(filename):
-            temp = json.loads(line)
-            if(len(temp["short_description"]) > 10 and len(temp["category"]) > 2 and len(temp["headline"]) > 5):
-                lines.append(temp)
-
-        return lines
+    lines = []
 
     def __init__(self):
-        self.lines = parse_json_dataset()
+        for line in open("news.json"):
+            temp = json.loads(line)
+            if(len(temp["short_description"]) > 10 and len(temp["category"]) > 2 and len(temp["headline"]) > 5):
+                self.lines.append(temp)
 
     def get_train_examples(self):
       """See base class."""
