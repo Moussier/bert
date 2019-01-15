@@ -210,6 +210,7 @@ class NewsProcessor(DataProcessor):
     lines = []
 
     def __init__(self):
+        global lines
         for line in open("bert_repo/news.json"):
             temp = json.loads(line)
             if(len(temp["short_description"]) > 10 and len(temp["category"]) > 2 and len(temp["headline"]) > 5):
