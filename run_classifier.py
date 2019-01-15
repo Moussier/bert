@@ -20,6 +20,7 @@ from __future__ import print_function
 
 import collections
 import csv
+import json
 import os
 import modeling
 import optimization
@@ -203,6 +204,59 @@ class DataProcessor(object):
         lines.append(line)
       return lines
 
+class NewsProcessor(DataProcessor):
+    """https://www.kaggle.com/rmisra/news-category-dataset"""
+
+    def __init__(self):
+        self.lines = parse_json_dataset()
+
+    def parse_json_dataset(self):
+        lines = []
+        for line in open(filename):
+            temp = json.loads(line)
+            if(len(temp["short_description"]) > 10 and len(temp["category"]) > 2 and len(temp["headline"]) > 5):
+                lines.append(temp)
+
+        return lines
+
+    def get_train_examples(self):
+      """See base class."""
+      return self._create_examples(self.lines, "train")
+
+    def get_dev_examples(self):
+      """See base class."""
+      return self._create_examples(self.lines, "dev")
+
+    def get_test_examples(self):
+      """See base class."""
+      return self._create_examples(self.lines, "test")
+
+    def get_labels(self):
+      """See base class."""
+      categories = []
+      for line in self.lines:
+          c = line["category"]
+          if c not in categories:
+              categories.append(c)
+
+      return categories
+
+    def _create_examples(self, lines, set_type):
+      """Creates examples for the training and dev sets."""
+      examples = []
+      for (i, line) in enumerate(lines):
+        if i == 0:
+          continue
+        guid = "%s-%s" % (set_type, i)
+        text_a = tokenization.convert_to_unicode(line["short_description"])
+        #text_b = tokenization.convert_to_unicode(line[4])
+        if set_type == "test":
+          label = ""
+        else:
+          label = tokenization.convert_to_unicode(line["category"])
+        examples.append(
+            InputExample(guid=guid, text_a=text_a, label=label))
+      return examples
 
 class XnliProcessor(DataProcessor):
   """Processor for the XNLI data set."""
@@ -788,6 +842,7 @@ def main(_):
       "mnli": MnliProcessor,
       "mrpc": MrpcProcessor,
       "xnli": XnliProcessor,
+      "news": NewsProcessor,
   }
 
   tokenization.validate_case_matches_checkpoint(FLAGS.do_lower_case,
