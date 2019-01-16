@@ -250,7 +250,7 @@ class NewsProcessor(DataProcessor):
           continue
         guid = "%s-%s" % (set_type, i)
         text_a = tokenization.convert_to_unicode(line["short_description"])
-        #text_b = tokenization.convert_to_unicode(line[4])
+        text_b = tokenization.convert_to_unicode(line["headline"])
         if set_type == "test":
           label = "IMPACT"
         else:
