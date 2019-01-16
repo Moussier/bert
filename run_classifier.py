@@ -212,7 +212,7 @@ class NewsProcessor(DataProcessor):
     def __init__(self):
         i=0
         for line in open("bert_repo/news.json"):
-            if(i>50000):
+            if(i>80000):
                 break
             i+=1
             temp = json.loads(line)
